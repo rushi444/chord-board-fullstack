@@ -16,20 +16,6 @@ services:
       - DB_PASS=supersecretpassword
     depends_on:
       - db
-  frontend:
-    build: ./frontend
-    volumes:
-      - ./frontend:/app
-      # One-way volume to use node_modules from inside image
-      - /app/node_modules
-    ports:
-      - '3000:3000'
-    environment:
-      - NODE_ENV=development
-      - SKIP_PREFLIGHT_CHECK=true
-    depends_on:
-      - backend
-    command: yarn start
   db:
     image: postgres:10-alpine
     environment:
