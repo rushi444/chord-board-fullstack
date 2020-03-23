@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import { gql } from 'apollo-boost';
-import styled from 'styled-components';
 
 export const Register = () => {
   const [user, setUser] = useState({

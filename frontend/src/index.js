@@ -1,7 +1,7 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { App } from './App'
+import { App } from './App';
 import {Auth} from './components/Auth/Auth'
 
 import { ApolloProvider } from 'react-apollo';
