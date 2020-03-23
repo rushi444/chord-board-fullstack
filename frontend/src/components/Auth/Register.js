@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Mutation } from 'react-apollo';
 import { gql } from 'apollo-boost';
+import styled from '@emotion/styled';
 
 export const Register = () => {
   const [user, setUser] = useState({
@@ -24,33 +25,42 @@ export const Register = () => {
       {createUser => {
         return (
           <>
-            <form onSubmit={e => handleSubmit(e, createUser)}>
-              <label>Email</label>
-              <input
-                type='text'
-                name='email'
-                placeholder='john@musiccloud.com'
-                value={user.email}
-                onChange={e => handleChange(e)}
-              />
-              <label>Username</label>
-              <input
-                type='text'
-                name='username'
-                placeholder='john44'
-                value={user.username}
-                onChange={e => handleChange(e)}
-              />
-              <label>Password</label>
-              <input
-                type='password'
-                name='password'
-                value={user.password}
-                onChange={e => handleChange(e)}
-              />
-              <button type='submit'>Register</button>
+            <form
+              style={{ padding: '30px 40px', width: '500px' }}
+              onSubmit={e => handleSubmit(e, createUser)}>
+              <h1>Register</h1>
+              <FormControl>
+                <input
+                  type='text'
+                  name='email'
+                  placeholder='email*'
+                  value={user.email}
+                  onChange={e => handleChange(e)}
+                />
+              </FormControl>
+              <FormControl>
+                <label>Username</label>
+                <input
+                  type='text'
+                  name='username'
+                  placeholder='username*'
+                  value={user.username}
+                  onChange={e => handleChange(e)}
+                />
+              </FormControl>
+              <FormControl>
+                <label>Password</label>
+                <input
+                  type='password'
+                  name='password'
+                  placeholder='password*'
+                  value={user.password}
+                  onChange={e => handleChange(e)}
+                />
+              </FormControl>
+              <FormButton type='submit'>Register</FormButton>
+              <LoginButton>Have an account? Log in here</LoginButton>
             </form>
-            <button>Have an account? Log in here</button>
           </>
         );
       }}
@@ -67,4 +77,49 @@ const REGISTER_MUTATION = gql`
       }
     }
   }
+`;
+
+const FormControl = styled.div`
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  position: relative;
+  input {
+    border: 2px solid #f0f0f0;
+    border-radius: 4px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+  input:focus {
+    outline: 0;
+    border-color: #777;
+  }
+`;
+
+const FormButton = styled.button`
+  cursor: pointer;
+  background-color: #3498db;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  color: white;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 20px;
+  width: 100%;
+`;
+
+const LoginButton = styled.button`
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  color: #3498db;
+  font-weight: bold;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 20px;
+  width: 100%;
 `;
