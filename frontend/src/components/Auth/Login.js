@@ -11,7 +11,7 @@ export const Login = () => {
     password: '',
   });
 
-  const [tokenAuth, { loading, error, data }] = useMutation(LOGIN_MUTATION, {
+  const [tokenAuth, { loading, error, data, called, client }] = useMutation(LOGIN_MUTATION, {
     onError: () => null, onCompleted: data => localStorage.setItem('token', data.tokenAuth.token)
   });
 
@@ -21,16 +21,17 @@ export const Login = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e, client) => {
     e.preventDefault();
     tokenAuth({ variables: { ...user } });
+    client.writeData({data: {isLoggedIn: true}})
   };
 
   return (
     <>
       <form
         style={{ padding: '30px 40px', width: '500px' }}
-        onSubmit={e => handleSubmit(e)}>
+        onSubmit={e => handleSubmit(e, client)}>
         <h1>Login</h1>
         <FormControl>
           <input
