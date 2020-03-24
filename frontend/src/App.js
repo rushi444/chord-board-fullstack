@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import { Dashboard } from './components/Pages/Dashboard';
 import { Profile } from './components/Pages/Profile';
+import { Navbar } from './components/Shared/Navbar';
+import { Register } from './components/Auth/Register';
+import { Login } from './components/Auth/Login';
 
 export const App = () => {
   const { loading, error, data } = useQuery(ME_QUERY);
@@ -13,9 +16,12 @@ export const App = () => {
   if (error) return <div>Error</div>;
   return (
     <Router>
+      <Navbar />
       <Switch>
         <Route exact path='/' component={Dashboard} />
         <Route path='/profile/:id' component={Profile} />
+        <Route path='/login' component={Login} />
+        <Route path='/register' component={Register} />
       </Switch>
     </Router>
   );

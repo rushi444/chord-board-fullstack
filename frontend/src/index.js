@@ -1,8 +1,8 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import ApolloClient, { gql } from 'apollo-boost';
+import './index.css'
 
 import { App } from './App';
 import { Auth } from './components/Auth/Auth';
