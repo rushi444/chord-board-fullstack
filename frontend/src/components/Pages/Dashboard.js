@@ -1,6 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import styled from '@emotion/styled'
 
 import { SearchTrack } from '../Tracks/SearchTrack';
 import { CreateTrack } from '../Tracks/CreateTrack';
@@ -12,15 +13,15 @@ export const Dashboard = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <Error error={error} />;
   return (
-    <div>
+    <DashBoardContainer>
       <SearchTrack />
       <CreateTrack />
       <TrackList tracks={data.tracks}/>
-    </div>
+    </DashBoardContainer>
   );
 };
 
-const GET_TRACKS_QUERY = gql`
+export const GET_TRACKS_QUERY = gql`
   query getTracksQuery {
     tracks {
       id
@@ -37,3 +38,11 @@ const GET_TRACKS_QUERY = gql`
     }
   }
 `;
+
+const DashBoardContainer = styled.div`
+margin-top: 15%;
+width: 80vw;
+border: 1px solid black;
+justify-content: center;
+text-align: center; 
+`

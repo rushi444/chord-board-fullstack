@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
+import styled from '@emotion/styled';
 import axios from 'axios';
+
+import { GET_TRACKS_QUERY } from '../Pages/Dashboard';
 
 export const CreateTrack = () => {
   const [newSong, setNewSong] = useState({
@@ -10,12 +13,21 @@ export const CreateTrack = () => {
   });
 
   const [file, setFile] = useState('');
+  const [expand, setExpand] = useState(false);
 
-  const [createTrack, { error }] = useMutation(CREATE_TRACK_MUTATION, {onCompleted: data => console.log(data)});
+  const [createTrack] = useMutation(CREATE_TRACK_MUTATION, {
+    onCompleted: data => console.log(data),
+    refetchQueries: [{ query: GET_TRACKS_QUERY }],
+  });
 
   const handleAudioChange = e => {
     const selectedFile = e.target.files[0];
-    setFile(selectedFile);
+    const fileSizeLimit = 10000000;
+    if (selectedFile && selectedFile.size > fileSizeLimit) {
+      console.error(`${selectedFile.name}: File Size Exceeded Limit`);
+    } else {
+      setFile(selectedFile);
+    }
   };
 
   const handleChange = e => {
@@ -24,16 +36,20 @@ export const CreateTrack = () => {
   };
 
   const handleAudioUpload = async () => {
-    const data = new FormData();
-    data.append('file', file);
-    data.append('resource_type', 'raw');
-    data.append('upload_preset', 'music-cloud');
-    data.append('cloud_name', 'rushi44');
-    const res = await axios.post(
-      'https://api.cloudinary.com/v1_1/rushi44/raw/upload',
-      data,
-    );
-    return res.data.url;
+    try {
+      const data = new FormData();
+      data.append('file', file);
+      data.append('resource_type', 'raw');
+      data.append('upload_preset', 'music-cloud');
+      data.append('cloud_name', 'rushi44');
+      const res = await axios.post(
+        'https://api.cloudinary.com/v1_1/rushi44/raw/upload',
+        data,
+      );
+      return res.data.url;
+    } catch (err) {
+      console.error('Error Uploading File', err);
+    }
   };
 
   const handleSubmit = async e => {
@@ -46,12 +62,16 @@ export const CreateTrack = () => {
         url: uploadedUrl,
       },
     });
+    setNewSong({ title: '', description: '' });
+    setFile('');
   };
 
-  return (
+  return !expand ? (
+    <SwitchButton onClick={() => setExpand(true)}>Add a Song</SwitchButton>
+  ) : (
     <div>
-      <button>Add a Song</button>
-      <form onSubmit={e => handleSubmit(e)} style={{ display: 'flex' }}>
+      <SwitchButton onClick={() => setExpand(false)} >Cancel</SwitchButton>
+      <AddSongForm onSubmit={e => handleSubmit(e)}>
         <input
           type='text'
           name='title'
@@ -63,7 +83,7 @@ export const CreateTrack = () => {
         <textarea
           type='text'
           name='description'
-          rows='5'
+          rows='3'
           placeholder='Add Description'
           autoComplete='off'
           value={newSong.description}
@@ -78,13 +98,13 @@ export const CreateTrack = () => {
             onChange={handleAudioChange}
           />
         </div>
-        <button
+        <SwitchButton
           disabled={
             !newSong.title.trim() || !newSong.description.trim() || !file
           }>
           Submit
-        </button>
-      </form>
+        </SwitchButton>
+      </AddSongForm>
     </div>
   );
 };
@@ -99,5 +119,48 @@ const CREATE_TRACK_MUTATION = gql`
         url
       }
     }
+  }
+`;
+
+const SwitchButton = styled.button`
+cursor: pointer;
+margin: auto; 
+background-color: #3498db;
+border: 2px solid #3498db;
+border-radius: 4px;
+color: white;
+display: block;
+font-size: 16px;
+padding: 10px;
+margin-top: 20px;
+width: 80%;
+:disabled {
+  background-color: gray;
+  border-color: gray;
+}
+`;
+
+const AddSongForm = styled.form`
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  position: relative;
+  input,
+  textarea {
+    border: none;
+    border-bottom: 1px solid black;
+    border-radius: 4px;
+    display: block;
+    width: 80%;
+    margin: auto;
+    margin-top: 1%;
+    padding: 10px;
+    font-size: 14px;
+  }
+  input,
+  textarea:focus {
+    outline: 0;
+  }
+  #audio {
+    border: none;
   }
 `;

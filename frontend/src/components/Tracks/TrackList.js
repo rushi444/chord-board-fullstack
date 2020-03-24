@@ -12,7 +12,7 @@ export const TrackList = ({ tracks }) => {
       <ul>
         {tracks.map(track => (
           <li key={track.id}>
-            <div>{track.title}</div>
+            <div>{track.title} {track.id}</div>
             <Link to={`/profile/${track.postedBy.id}`}>
               {track.postedBy.username}
             </Link>
