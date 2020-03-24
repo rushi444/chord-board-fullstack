@@ -1,14 +1,14 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-export const App = () => <Query query={GET_TRACKS_QUERY}>
-  {({data, loading, error}) => {
-    if (loading) return <div>Loading...</div>
-    if (error) return <div>Error</div>
-    return <div>{JSON.stringify(data)}</div>
-  }}
-</Query>;
+export const App = () => {
+  const { loading, error, data } = useQuery(GET_TRACKS_QUERY);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error</div>;
+  return <div>{JSON.stringify(data)}</div>;
+};
 const GET_TRACKS_QUERY = gql`
   {
     tracks {

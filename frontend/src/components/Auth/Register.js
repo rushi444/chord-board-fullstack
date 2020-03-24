@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Mutation } from 'react-apollo';
+import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from '@emotion/styled';
+
+import { Error } from '../Shared/Error';
 
 export const Register = () => {
   const [user, setUser] = useState({
@@ -10,61 +12,69 @@ export const Register = () => {
     password: '',
   });
 
+  const [createUser, { loading, error }] = useMutation(REGISTER_MUTATION, {
+    onError: () => null
+  });
+
   const handleChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e, createUser) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const res = await createUser();
-    console.log(res);
+    createUser({ variables: { ...user }});
   };
 
   return (
-    <Mutation mutation={REGISTER_MUTATION} variables={{ ...user }}>
-      {createUser => {
-        return (
-          <>
-            <form
-              style={{ padding: '30px 40px', width: '500px' }}
-              onSubmit={e => handleSubmit(e, createUser)}>
-              <h1>Register</h1>
-              <FormControl>
-                <input
-                  type='text'
-                  name='email'
-                  placeholder='email*'
-                  value={user.email}
-                  onChange={e => handleChange(e)}
-                />
-              </FormControl>
-              <FormControl>
-                <label>Username</label>
-                <input
-                  type='text'
-                  name='username'
-                  placeholder='username*'
-                  value={user.username}
-                  onChange={e => handleChange(e)}
-                />
-              </FormControl>
-              <FormControl>
-                <label>Password</label>
-                <input
-                  type='password'
-                  name='password'
-                  placeholder='password*'
-                  value={user.password}
-                  onChange={e => handleChange(e)}
-                />
-              </FormControl>
-              <FormButton type='submit'>Register</FormButton>
-              <LoginButton>Have an account? Log in here</LoginButton>
-            </form>
-          </>
-        );
-      }}
-    </Mutation>
+    <>
+      <form
+        style={{ padding: '30px 40px', width: '500px' }}
+        onSubmit={e => handleSubmit(e)}>
+        <h1>Register</h1>
+        <FormControl>
+          <input
+            type='text'
+            name='email'
+            placeholder='email*'
+            autoComplete='off'
+            value={user.email}
+            onChange={e => handleChange(e)}
+          />
+        </FormControl>
+        <FormControl>
+          <input
+            type='text'
+            name='username'
+            placeholder='username*'
+            autoComplete='off'
+            value={user.username}
+            onChange={e => handleChange(e)}
+          />
+        </FormControl>
+        <FormControl>
+          <input
+            type='password'
+            name='password'
+            placeholder='password*'
+            autoComplete='off'
+            value={user.password}
+            onChange={e => handleChange(e)}
+          />
+        </FormControl>
+        <FormButton
+          type='submit'
+          disabled={
+            loading ||
+            !user.username.trim() ||
+            !user.email.trim() ||
+            !user.password.trim()
+          }>
+          {loading ? 'Registering...' : 'Register'}
+        </FormButton>
+        <LoginButton>Have an account? Click here</LoginButton>
+        {error && <Error error={error} />}
+      </form>
+    </>
   );
 };
 
@@ -108,6 +118,10 @@ const FormButton = styled.button`
   padding: 10px;
   margin-top: 20px;
   width: 100%;
+  :disabled {
+    background-color: gray;
+    border-color: gray;
+  }
 `;
 
 const LoginButton = styled.button`

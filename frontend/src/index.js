@@ -4,7 +4,7 @@ import './index.css';
 import { App } from './App';
 import {Auth} from './components/Auth/Auth'
 
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
 
 const client = new ApolloClient({
