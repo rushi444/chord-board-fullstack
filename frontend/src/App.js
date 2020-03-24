@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -10,17 +10,30 @@ import { Register } from './components/Auth/Register';
 import { Login } from './components/Auth/Login';
 
 export const App = () => {
-  const { loading, error, data } = useQuery(ME_QUERY);
+  const token = localStorage.getItem('token');
+
+  const { loading, error, data } = useQuery(ME_QUERY, { skip: !token });
+
+  const [, setIsLoggedIn] = useState(false);
+
+  let currentUser;
+
+  if (data) {
+    currentUser = data.me;
+  }
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error</div>;
   return (
     <Router>
-      <Navbar />
+      <Navbar currentUser={currentUser} setIsLoggedIn={setIsLoggedIn} />
       <Switch>
         <Route exact path='/' component={Dashboard} />
         <Route path='/profile/:id' component={Profile} />
-        <Route path='/login' component={Login} />
+        <Route
+          path='/login'
+          render={props => <Login {...props} setIsLoggedIn={setIsLoggedIn} />}
+        />
         <Route path='/register' component={Register} />
       </Switch>
     </Router>

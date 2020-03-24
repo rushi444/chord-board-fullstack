@@ -2,16 +2,31 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-export const Navbar = props => {
+export const Navbar = ({ currentUser, setIsLoggedIn }) => {
+  const logout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false)
+  };
+
+  currentUser && setIsLoggedIn(true);
   return (
     <>
       <NavBar>
         <FlexContainer>
           <h1>Music Cloud</h1>
-          <NavLinks>
-            <Link to='/register'>Register</Link>
-            <Link to='/login'>Login</Link>
-          </NavLinks>
+          {currentUser ? (
+            <NavLinks>
+              <Link to={`/user/${currentUser.id}`}>
+                Hi {currentUser.username}
+              </Link>
+            </NavLinks>
+          ) : (
+            <NavLinks>
+              <Link to='/register'>Register</Link>
+              <Link to='/login'>Login</Link>
+            </NavLinks>
+          )}
+          <LogoutButton onClick={() => logout()}>Logout</LogoutButton>
         </FlexContainer>
       </NavBar>
     </>
@@ -36,8 +51,8 @@ const FlexContainer = styled.div`
   justify-content: space-between;
   height: 5rem;
   h1 {
-      color: white;
-      margin: auto 0;
+    color: white;
+    margin: auto 0;
   }
 `;
 
@@ -65,4 +80,17 @@ const NavLinks = styled.ul`
       display: none;
     }
   }
+`;
+
+const LogoutButton = styled.button`
+  margin: auto 0;
+  cursor: pointer;
+  background-color: #3498db;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  color: white;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 20px;
 `;

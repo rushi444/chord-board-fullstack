@@ -5,7 +5,9 @@ import styled from '@emotion/styled';
 
 import { Error } from '../Shared/Error';
 
-export const Register = () => {
+export const Register = props => {
+  localStorage.getItem('token') && props.history.push('/');
+
   const [user, setUser] = useState({
     email: '',
     username: '',
@@ -13,16 +15,17 @@ export const Register = () => {
   });
 
   const [createUser, { loading, error }] = useMutation(REGISTER_MUTATION, {
-    onError: () => null
+    onError: () => null,
   });
 
   const handleChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    createUser({ variables: { ...user }});
+    await createUser({ variables: { ...user } });
+    await props.history.push('/login')
   };
 
   return (

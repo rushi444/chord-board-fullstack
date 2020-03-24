@@ -5,26 +5,36 @@ import styled from '@emotion/styled';
 
 import { Error } from '../Shared/Error';
 
-export const Login = () => {
+export const Login = (props) => {
+  const token = localStorage.getItem('token');
+
+  token && props.history.push('/');
+
   const [user, setUser] = useState({
     username: '',
     password: '',
   });
 
-  const [tokenAuth, { loading, error, data, called, client }] = useMutation(LOGIN_MUTATION, {
-    onError: () => null, onCompleted: data => localStorage.setItem('token', data.tokenAuth.token)
-  });
+  const [tokenAuth, { loading, error, data, called, client }] = useMutation(
+    LOGIN_MUTATION,
+    {
+      onError: () => null,
+      onCompleted: data => localStorage.setItem('token', data.tokenAuth.token),
+    },
+  );
 
-  console.log(data)
+  console.log(data);
 
   const handleChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e, client) => {
+  const handleSubmit = async (e, client) => {
     e.preventDefault();
-    tokenAuth({ variables: { ...user } });
-    client.writeData({data: {isLoggedIn: true}})
+    await tokenAuth({ variables: { ...user } });
+    await client.writeData({ data: { isLoggedIn: true } });
+    await props.setIsLoggedIn(true)
+    await props.history.push('/')
   };
 
   return (
@@ -55,11 +65,7 @@ export const Login = () => {
         </FormControl>
         <FormButton
           type='submit'
-          disabled={
-            loading ||
-            !user.username.trim() ||
-            !user.password.trim()
-          }>
+          disabled={loading || !user.username.trim() || !user.password.trim()}>
           {loading ? 'Logging in...' : 'Login'}
         </FormButton>
         <RegisterButton>Don't have an account? Click here</RegisterButton>
