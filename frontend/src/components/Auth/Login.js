@@ -33,8 +33,8 @@ export const Login = (props) => {
     e.preventDefault();
     await tokenAuth({ variables: { ...user } });
     await client.writeData({ data: { isLoggedIn: true } });
-    await props.setIsLoggedIn(true)
     await props.history.push('/')
+    await props.setIsLoggedIn(true)
   };
 
   return (
