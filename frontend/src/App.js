@@ -14,7 +14,7 @@ export const App = () => {
 
   const { loading, error, data } = useQuery(ME_QUERY, { skip: !token });
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [, setIsLoggedIn] = useState(false);
 
   let currentUser;
 
@@ -26,11 +26,7 @@ export const App = () => {
   if (error) return <div>Error</div>;
   return (
     <Router>
-      <Navbar
-        currentUser={currentUser}
-        setIsLoggedIn={setIsLoggedIn}
-        isLoggedIn={isLoggedIn}
-      />
+      <Navbar currentUser={currentUser} setIsLoggedIn={setIsLoggedIn} />
       <Switch>
         <Route exact path='/' component={Dashboard} />
         <Route path='/profile/:id' component={Profile} />
