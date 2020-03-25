@@ -29,7 +29,7 @@ export const Register = props => {
   };
 
   return (
-    <>
+    <div style={{marginTop: '100px'}}>
       <form
         style={{ padding: '30px 40px', width: '500px' }}
         onSubmit={e => handleSubmit(e)}>
@@ -77,7 +77,7 @@ export const Register = props => {
         <LoginButton>Have an account? Click here</LoginButton>
         {error && <Error error={error} />}
       </form>
-    </>
+    </div>
   );
 };
 
@@ -112,8 +112,8 @@ const FormControl = styled.div`
 
 const FormButton = styled.button`
   cursor: pointer;
-  background-color: #3498db;
-  border: 2px solid #3498db;
+  background-color: #45a29e;
+  border: 2px solid #45a29e;
   border-radius: 4px;
   color: white;
   display: block;
@@ -130,9 +130,9 @@ const FormButton = styled.button`
 const LoginButton = styled.button`
   cursor: pointer;
   background-color: white;
-  border: 2px solid #3498db;
+  border: 2px solid #45a29e;
   border-radius: 4px;
-  color: #3498db;
+  color: #45a29e;
   font-weight: bold;
   display: block;
   font-size: 16px;

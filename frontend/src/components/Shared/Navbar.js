@@ -10,7 +10,7 @@ export const Navbar = ({ currentUser, setIsLoggedIn }) => {
 
   useEffect(() => {
     currentUser && setIsLoggedIn(true);
-  }, []);
+  }, [currentUser, setIsLoggedIn]);
 
   return (
     <>

@@ -1,11 +1,10 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { ApolloProvider, useQuery } from '@apollo/react-hooks';
-import ApolloClient, { gql } from 'apollo-boost';
+import { ApolloProvider } from '@apollo/react-hooks';
+import ApolloClient from 'apollo-boost';
 import './index.css'
 
 import { App } from './App';
-import { Auth } from './components/Auth/Auth';
 
 const client = new ApolloClient({
   uri: 'http://localhost:8000/graphql/',
@@ -14,7 +13,7 @@ const client = new ApolloClient({
   },
   request: operation => {
     const token = localStorage.getItem('token');
-    operation.setContext({
+    token && operation.setContext({
       headers: {
         Authorization: `JWT ${token}`,
       },

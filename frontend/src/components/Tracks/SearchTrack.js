@@ -1,14 +1,30 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { useApolloClient } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 
-export const SearchTrack = () => {
+export const SearchTrack = ({setSearchResults}) => {
+  const client = useApolloClient();
+
   const [searchText, setSearchText] = useState('');
 
   const handleChange = e => {
     setSearchText(e.target.value);
   };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const res = await client.query({
+      query: SEARCH_TRACKS_QUERY,
+      variables: {
+        search: searchText,
+      },
+    });
+    setSearchResults(res.data.tracks)
+    setSearchText('')
+  };
   return (
-    <SearchForm>
+    <SearchForm onSubmit={handleSubmit}>
       <input
         type='text'
         name='searchText'
@@ -34,6 +50,24 @@ const SearchForm = styled.form`
     }
     :focus {
       outline: 0;
+    }
+  }
+`;
+
+const SEARCH_TRACKS_QUERY = gql`
+  query($search: String) {
+    tracks(search: $search) {
+      id
+      title
+      description
+      url
+      likes {
+        id
+      }
+      postedBy {
+        id
+        username
+      }
     }
   }
 `;
