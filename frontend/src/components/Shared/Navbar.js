@@ -16,7 +16,7 @@ export const Navbar = ({ currentUser, setIsLoggedIn }) => {
     <>
       <NavBar>
         <FlexContainer>
-          <h1>Music Cloud</h1>
+          <h1 style={{ color: '#0b0c10' }}>Music Cloud</h1>
           {currentUser ? (
             <NavLinks>
               <Link to={`/user/${currentUser.id}`}>
@@ -41,7 +41,7 @@ const NavBar = styled.nav`
   width: 100%;
   top: 0;
   left: 0;
-  background: #2d3436;
+  background: #c5c6c7;
   z-index: 1;
   font-size: 1.4rem;
 `;
@@ -63,10 +63,11 @@ const NavLinks = styled.ul`
   justify-self: end;
   list-style-type: none;
   margin: auto 0;
+  padding-top: 1%;
 
   & a {
-    color: #dfe6e9;
-    text-transform: uppercase;
+    color: #0b0c10;
+    text-transform: capitalize;
     font-weight: 600;
     border-bottom: 1px solid transparent;
     margin: 0 1.5rem;
@@ -75,8 +76,8 @@ const NavLinks = styled.ul`
     cursor: pointer;
 
     &:hover {
-      color: #fdcb6e;
-      border-bottom: 1px solid #fdcb6e;
+      color: #45a29e;
+      border-bottom: 1px solid #45a29e;
     }
 
     @media (max-width: 768px) {
@@ -88,8 +89,8 @@ const NavLinks = styled.ul`
 const LogoutButton = styled.button`
   margin: auto 0;
   cursor: pointer;
-  background-color: #3498db;
-  border: 2px solid #3498db;
+  background-color: #45a29e;
+  border: 2px solid #45a29e;
   border-radius: 4px;
   color: white;
   display: block;

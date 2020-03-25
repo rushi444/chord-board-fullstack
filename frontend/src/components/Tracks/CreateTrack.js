@@ -125,8 +125,8 @@ const CREATE_TRACK_MUTATION = gql`
 const SwitchButton = styled.button`
 cursor: pointer;
 margin: auto; 
-background-color: #3498db;
-border: 2px solid #3498db;
+background-color: #45a29e;
+border: 2px solid #45a29e;
 border-radius: 4px;
 color: white;
 display: block;
@@ -147,7 +147,7 @@ const AddSongForm = styled.form`
   input,
   textarea {
     border: none;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid lightgray;
     border-radius: 4px;
     display: block;
     width: 80%;

@@ -40,9 +40,10 @@ export const GET_TRACKS_QUERY = gql`
 `;
 
 const DashBoardContainer = styled.div`
-margin-top: 15%;
+margin-top: 100px;
 width: 80vw;
 border: 1px solid black;
+padding: 1%;
 justify-content: center;
 text-align: center; 
 `

@@ -1,11 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
-
 * {
   box-sizing: border-box;
 }
 
 body {
-  background-color: lightgray;
+  background-color: #1f2833;
+  color: white;
+  font-family: 'Cardo', serif;
   font-family: 'Open Sans', sans-serif;
   display: flex;
   /* align-items: center; */
@@ -14,3 +14,12 @@ body {
   margin: 0;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Oswald', sans-serif;
+  text-transform: uppercase;
+}
