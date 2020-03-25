@@ -3,10 +3,12 @@ import styled from '@emotion/styled';
 import { useApolloClient } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-export const SearchTrack = ({setSearchResults}) => {
+export const SearchTrack = ({ setSearchResults }) => {
   const client = useApolloClient();
 
   const [searchText, setSearchText] = useState('');
+
+  const [clearButtonActive, setClearButtonActive] = useState(false);
 
   const handleChange = e => {
     setSearchText(e.target.value);
@@ -14,14 +16,25 @@ export const SearchTrack = ({setSearchResults}) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    if (searchText.length == 0) {
+      console.log('Need to enter something to search');
+      return;
+    }
     const res = await client.query({
       query: SEARCH_TRACKS_QUERY,
       variables: {
         search: searchText,
       },
     });
-    setSearchResults(res.data.tracks)
-    setSearchText('')
+    setSearchResults(res.data.tracks);
+    setClearButtonActive(true);
+    setSearchText('');
+  };
+
+  const handleClear = e => {
+    e.preventDefault();
+    setSearchResults([]);
+    setClearButtonActive(false);
   };
   return (
     <SearchForm onSubmit={handleSubmit}>
@@ -32,6 +45,8 @@ export const SearchTrack = ({setSearchResults}) => {
         value={searchText}
         onChange={handleChange}
       />
+      <p />
+      {clearButtonActive && <button onClick={handleClear}>Clear Search</button>}
     </SearchForm>
   );
 };
@@ -51,6 +66,19 @@ const SearchForm = styled.form`
     :focus {
       outline: 0;
     }
+  }
+  button {
+    cursor: pointer;
+    margin: auto;
+    background-color: #45a29e;
+    border: 2px solid #45a29e;
+    border-radius: 4px;
+    color: white;
+    display: block;
+    font-size: 16px;
+    padding: 10px;
+    margin-top: 20px;
+    width: 80%;
   }
 `;
 

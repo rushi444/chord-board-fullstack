@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-export const Navbar = ({ currentUser, setIsLoggedIn }) => {
+export const Navbar = ({ currentUser, setIsLoggedIn, isLoggedIn }) => {
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.clear();
     setIsLoggedIn(false);
   };
 
@@ -29,7 +29,7 @@ export const Navbar = ({ currentUser, setIsLoggedIn }) => {
               <Link to='/login'>Login</Link>
             </NavLinks>
           )}
-          <LogoutButton onClick={logout}>Logout</LogoutButton>
+          {isLoggedIn && <LogoutButton onClick={logout}>Logout</LogoutButton>}
         </FlexContainer>
       </NavBar>
     </>

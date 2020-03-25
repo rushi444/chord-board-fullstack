@@ -9,12 +9,14 @@ import { Navbar } from './components/Shared/Navbar';
 import { Register } from './components/Auth/Register';
 import { Login } from './components/Auth/Login';
 
+export const UserContext = React.createContext();
+
 export const App = () => {
   const token = localStorage.getItem('token');
 
   const { loading, error, data } = useQuery(ME_QUERY, { skip: !token });
 
-  const [, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   let currentUser;
 
@@ -26,29 +28,21 @@ export const App = () => {
   if (error) return <div>Error</div>;
   return (
     <Router>
-      <Navbar currentUser={currentUser} setIsLoggedIn={setIsLoggedIn} />
-      <Switch>
-        <Route exact path='/' component={Dashboard} />
-        <Route path='/profile/:id' component={Profile} />
-        <Route
-          path='/login'
-          render={props => <Login {...props} setIsLoggedIn={setIsLoggedIn} />}
-        />
-        <Route path='/register' component={Register} />
-      </Switch>
+      <UserContext.Provider value={currentUser}>
+        <Navbar currentUser={currentUser} setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+        <Switch>
+          <Route exact path='/' component={Dashboard} />
+          <Route path='/profile/:id' component={Profile} />
+          <Route
+            path='/login'
+            render={props => <Login {...props} setIsLoggedIn={setIsLoggedIn} />}
+          />
+          <Route path='/register' component={Register} />
+        </Switch>
+      </UserContext.Provider>
     </Router>
   );
 };
-// const GET_TRACKS_QUERY = gql`
-//   {
-//     tracks {
-//       id
-//       title
-//       description
-//       url
-//     }
-//   }
-// `;
 
 const ME_QUERY = gql`
   {
