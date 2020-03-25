@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { AudioPlayer } from '../Shared/AudioPlayer';
 import { LikeTrack } from './LikeTrack';
 import { DeleteTrack } from './DeleteTrack';
+import { TrackList } from './TrackList';
 
 export const Track = ({ track }) => {
   const [expand, setExpand] = useState(false);
@@ -15,9 +16,8 @@ export const Track = ({ track }) => {
         {track.title} {track.id}
       </Title>
       <NonExpandInfo>
-        <LikeTrack />
+        {<LikeTrack trackId={track.id} likeCount={track.likes.length} />}
         <AudioPlayer url={track.url} />
-
         <div>
           By:{' '}
           <StyledLink to={`/profile/${track.postedBy.id}`}>
@@ -64,9 +64,13 @@ const ExpandButton = styled.button`
 `;
 
 const StyledLink = styled(Link)`
-    color: black;
+  color: black;
 
-    &:focus, &:hover, &:visited, &:link, &:active {
-        text-decoration: underline;
-    }
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: underline;
+  }
 `;

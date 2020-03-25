@@ -16,8 +16,16 @@ export const CreateTrack = () => {
   const [expand, setExpand] = useState(false);
 
   const [createTrack] = useMutation(CREATE_TRACK_MUTATION, {
-    onCompleted: data => console.log(data),
-    refetchQueries: [{ query: GET_TRACKS_QUERY }],
+    update(cache, { data: { createTrack } }) {
+      const { tracks } = cache.readQuery({ query: GET_TRACKS_QUERY });
+      cache.writeQuery({
+        query: GET_TRACKS_QUERY,
+        data: { tracks: [...tracks, createTrack.track] },
+      });
+
+      // data.tracks.concat(createTrack.track);
+      // cache.writeQuery({ query: GET_TRACKS_QUERY, data: { tracks } });
+    },
   });
 
   const handleAudioChange = e => {
@@ -64,13 +72,14 @@ export const CreateTrack = () => {
     });
     setNewSong({ title: '', description: '' });
     setFile('');
+    setExpand(false);
   };
 
   return !expand ? (
     <SwitchButton onClick={() => setExpand(true)}>Add a Song</SwitchButton>
   ) : (
     <div>
-      <SwitchButton onClick={() => setExpand(false)} >Cancel</SwitchButton>
+      <SwitchButton onClick={() => setExpand(false)}>Cancel</SwitchButton>
       <AddSongForm onSubmit={e => handleSubmit(e)}>
         <input
           type='text'
@@ -117,27 +126,34 @@ const CREATE_TRACK_MUTATION = gql`
         title
         description
         url
+        likes {
+          id
+        }
+        postedBy {
+          id
+          username
+        }
       }
     }
   }
 `;
 
 const SwitchButton = styled.button`
-cursor: pointer;
-margin: auto; 
-background-color: #45a29e;
-border: 2px solid #45a29e;
-border-radius: 4px;
-color: white;
-display: block;
-font-size: 16px;
-padding: 10px;
-margin-top: 20px;
-width: 80%;
-:disabled {
-  background-color: gray;
-  border-color: gray;
-}
+  cursor: pointer;
+  margin: auto;
+  background-color: #45a29e;
+  border: 2px solid #45a29e;
+  border-radius: 4px;
+  color: white;
+  display: block;
+  font-size: 16px;
+  padding: 10px;
+  margin-top: 20px;
+  width: 80%;
+  :disabled {
+    background-color: gray;
+    border-color: gray;
+  }
 `;
 
 const AddSongForm = styled.form`

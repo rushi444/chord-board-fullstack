@@ -14,7 +14,10 @@ export const UserContext = React.createContext();
 export const App = () => {
   const token = localStorage.getItem('token');
 
-  const { loading, error, data } = useQuery(ME_QUERY, { skip: !token });
+  const { loading, error, data } = useQuery(ME_QUERY, {
+    skip: !token,
+    fetchPolicy: 'cache-and-network',
+  });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -29,7 +32,11 @@ export const App = () => {
   return (
     <Router>
       <UserContext.Provider value={currentUser}>
-        <Navbar currentUser={currentUser} setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+        <Navbar
+          currentUser={currentUser}
+          setIsLoggedIn={setIsLoggedIn}
+          isLoggedIn={isLoggedIn}
+        />
         <Switch>
           <Route exact path='/' component={Dashboard} />
           <Route path='/profile/:id' component={Profile} />
@@ -44,12 +51,17 @@ export const App = () => {
   );
 };
 
-const ME_QUERY = gql`
+export const ME_QUERY = gql`
   {
     me {
       id
       username
       email
+      likeSet {
+        track {
+          id
+        }
+      }
     }
   }
 `;

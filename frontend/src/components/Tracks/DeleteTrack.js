@@ -9,7 +9,14 @@ import { GET_TRACKS_QUERY } from '../Pages/Dashboard';
 export const DeleteTrack = ({ track }) => {
   const [deleteTrack] = useMutation(DELETE_TRACK_MUTATION, {
     variables: { trackId: track.id },
-    refetchQueries: [{ query: GET_TRACKS_QUERY }],
+    update(cache, {data: {deleteTrack}}) {
+        const {tracks} = cache.readQuery({query: GET_TRACKS_QUERY})
+        const index = tracks.findIndex(track => Number(track.id) === deleteTrack.trackId)
+        cache.writeQuery({
+            query: GET_TRACKS_QUERY,
+            data: {tracks: [...tracks.slice(0, index), ...tracks.slice(index + 1)] }
+        })
+    }
   });
 
   const currentUser = useContext(UserContext);
