@@ -29,6 +29,7 @@ export const App = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error</div>;
+
   return (
     <Router>
       <UserContext.Provider value={currentUser}>

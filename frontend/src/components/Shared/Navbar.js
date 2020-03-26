@@ -19,7 +19,7 @@ export const Navbar = ({ currentUser, setIsLoggedIn, isLoggedIn }) => {
           <h1 style={{ color: '#0b0c10' }}>Music Cloud</h1>
           {currentUser ? (
             <NavLinks>
-              <Link to={`/user/${currentUser.id}`}>
+              <Link to={`/profile/${currentUser.id}`}>
                 Hi {currentUser.username}
               </Link>
             </NavLinks>

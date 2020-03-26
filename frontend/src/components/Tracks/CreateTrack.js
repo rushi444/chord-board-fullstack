@@ -22,9 +22,6 @@ export const CreateTrack = () => {
         query: GET_TRACKS_QUERY,
         data: { tracks: [...tracks, createTrack.track] },
       });
-
-      // data.tracks.concat(createTrack.track);
-      // cache.writeQuery({ query: GET_TRACKS_QUERY, data: { tracks } });
     },
   });
 
