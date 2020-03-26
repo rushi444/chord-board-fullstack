@@ -17,7 +17,12 @@ export const Navbar = ({ currentUser, setIsLoggedIn, isLoggedIn }) => {
       <NavBar>
         <FlexContainer>
           <h1>
-            <Link to='/' style={{ textDecoration: 'none', color: 'black' }}>
+            <Link
+              to='/'
+              style={{
+                textDecoration: 'none',
+                color: 'black',
+              }}>
               Music Cloud
             </Link>
           </h1>

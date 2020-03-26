@@ -22,7 +22,9 @@ export const LikeTrack = ({ trackId, likeCount }) => {
   };
 
   return (
-    <Like onClick={createLike} disabled={currentUser ? handleDisableLikedTrack() : true}>
+    <Like
+      onClick={createLike}
+      disabled={currentUser ? handleDisableLikedTrack() : true}>
       {likeCount} <FaThumbsUp style={{ color: '#45a29e' }} />
     </Like>
   );

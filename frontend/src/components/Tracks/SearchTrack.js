@@ -16,8 +16,7 @@ export const SearchTrack = ({ setSearchResults }) => {
 
   const handleSubmit = async e => {
     e.preventDefault();
-    if (searchText.length == 0) {
-      console.log('Need to enter something to search');
+    if (searchText.length === 0) {
       return;
     }
     const res = await client.query({

@@ -11,9 +11,7 @@ export const Track = ({ track }) => {
 
   return (
     <>
-      <Title style={{ display: 'inline-block' }}>
-        {track.title}
-      </Title>
+      <Title style={{ display: 'inline-block' }}>{track.title}</Title>
       <NonExpandInfo>
         {<LikeTrack trackId={track.id} likeCount={track.likes.length} />}
         <AudioPlayer url={track.url} />

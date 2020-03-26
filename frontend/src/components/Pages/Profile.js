@@ -9,10 +9,8 @@ export const Profile = ({ match }) => {
   const id = match.params.id;
 
   const { data, loading } = useQuery(PROFILE_QUERY, {
-    onCompleted: data => console.log('on', data),
     variables: { id },
   });
-  console.log(data);
 
   if (loading) return <div>loading...</div>;
 

@@ -25,11 +25,11 @@ export const Register = props => {
   const handleSubmit = async e => {
     e.preventDefault();
     await createUser({ variables: { ...user } });
-    await props.history.push('/login')
+    await props.history.push('/login');
   };
 
   return (
-    <div style={{marginTop: '100px'}}>
+    <div style={{ marginTop: '100px' }}>
       <form
         style={{ padding: '30px 40px', width: '500px' }}
         onSubmit={e => handleSubmit(e)}>

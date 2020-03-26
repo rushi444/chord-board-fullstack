@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 
 import { Error } from '../Shared/Error';
 
-export const Login = (props) => {
+export const Login = props => {
   const token = localStorage.getItem('token');
 
   token && props.history.push('/');
@@ -15,15 +15,13 @@ export const Login = (props) => {
     password: '',
   });
 
-  const [tokenAuth, { loading, error, data, called, client }] = useMutation(
+  const [tokenAuth, { loading, error, client }] = useMutation(
     LOGIN_MUTATION,
     {
       onError: () => null,
       onCompleted: data => localStorage.setItem('token', data.tokenAuth.token),
     },
   );
-
-  console.log(data);
 
   const handleChange = e => {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -33,12 +31,12 @@ export const Login = (props) => {
     e.preventDefault();
     await tokenAuth({ variables: { ...user } });
     await client.writeData({ data: { isLoggedIn: true } });
-    await props.history.push('/')
-    await props.setIsLoggedIn(true)
+    await props.history.push('/');
+    await props.setIsLoggedIn(true);
   };
 
   return (
-    <div style={{marginTop: '100px'}}>
+    <div style={{ marginTop: '100px' }}>
       <form
         style={{ padding: '30px 40px', width: '500px' }}
         onSubmit={e => handleSubmit(e, client)}>

@@ -2,9 +2,9 @@ import React from 'react';
 import ReactPlayer from 'react-player';
 
 export const AudioPlayer = ({ url }) => {
-    const playerStyle = {
-      width: '10px'
-    }
+  const playerStyle = {
+    width: '10px',
+  };
   return (
     <div>
       <ReactPlayer

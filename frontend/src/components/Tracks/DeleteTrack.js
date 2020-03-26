@@ -9,20 +9,26 @@ import { GET_TRACKS_QUERY } from '../Pages/Dashboard';
 export const DeleteTrack = ({ track }) => {
   const [deleteTrack] = useMutation(DELETE_TRACK_MUTATION, {
     variables: { trackId: track.id },
-    update(cache, {data: {deleteTrack}}) {
-        const {tracks} = cache.readQuery({query: GET_TRACKS_QUERY})
-        const index = tracks.findIndex(track => Number(track.id) === deleteTrack.trackId)
-        cache.writeQuery({
-            query: GET_TRACKS_QUERY,
-            data: {tracks: [...tracks.slice(0, index), ...tracks.slice(index + 1)] }
-        })
-    }
+    update(cache, { data: { deleteTrack } }) {
+      const { tracks } = cache.readQuery({ query: GET_TRACKS_QUERY });
+      const index = tracks.findIndex(
+        track => Number(track.id) === deleteTrack.trackId,
+      );
+      cache.writeQuery({
+        query: GET_TRACKS_QUERY,
+        data: {
+          tracks: [...tracks.slice(0, index), ...tracks.slice(index + 1)],
+        },
+      });
+    },
   });
 
   const currentUser = useContext(UserContext);
   const isCurrentUser = (currentUser && currentUser.id) === track.postedBy.id;
 
-  return isCurrentUser && <DeleteButton onClick={deleteTrack}>delete</DeleteButton>;
+  return (
+    isCurrentUser && <DeleteButton onClick={deleteTrack}>delete</DeleteButton>
+  );
 };
 
 const DELETE_TRACK_MUTATION = gql`
@@ -34,11 +40,11 @@ const DELETE_TRACK_MUTATION = gql`
 `;
 
 const DeleteButton = styled.button`
-cursor: pointer;
-  border: none; 
+  cursor: pointer;
+  border: none;
   color: white;
   background-color: #45a29e;
-  font-size: 22px; 
+  font-size: 22px;
   padding: 1%;
-  border-radius: 5px; 
+  border-radius: 5px;
 `;
