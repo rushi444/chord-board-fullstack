@@ -16,7 +16,12 @@ export const Navbar = ({ currentUser, setIsLoggedIn, isLoggedIn }) => {
     <>
       <NavBar>
         <FlexContainer>
-          <h1 style={{ color: '#0b0c10' }}>Music Cloud</h1>
+          <h1>
+            <Link to='/' style={{ textDecoration: 'none', color: 'black' }}>
+              Music Cloud
+            </Link>
+          </h1>
+
           {currentUser ? (
             <NavLinks>
               <Link to={`/profile/${currentUser.id}`}>
@@ -29,7 +34,13 @@ export const Navbar = ({ currentUser, setIsLoggedIn, isLoggedIn }) => {
               <Link to='/login'>Login</Link>
             </NavLinks>
           )}
-          {isLoggedIn && <LogoutButton onClick={logout}>Logout</LogoutButton>}
+          {isLoggedIn && (
+            <LogoutButton onClick={logout}>
+              <Link to='/' style={{ textDecoration: 'none', color: 'white' }}>
+                Logout
+              </Link>
+            </LogoutButton>
+          )}
         </FlexContainer>
       </NavBar>
     </>

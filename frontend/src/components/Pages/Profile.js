@@ -2,7 +2,6 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from '@emotion/styled';
-import format from 'date-fns/format'
 
 import { AudioPlayer } from '../Shared/AudioPlayer';
 
@@ -16,7 +15,7 @@ export const Profile = ({ match }) => {
   console.log(data);
 
   if (loading) return <div>loading...</div>;
-  
+
   return (
     <div style={{ marginTop: '100px' }}>
       <div>
@@ -36,7 +35,7 @@ export const Profile = ({ match }) => {
       </div>
       <h2>Liked Tracks</h2>
       {data.user.likeSet.map(({ track }) => (
-        <SongContainer>
+        <SongContainer key={track.id}>
           <h4>
             {track.title} - Likes: {track.likes.length}
           </h4>

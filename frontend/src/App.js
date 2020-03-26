@@ -11,7 +11,7 @@ import { Login } from './components/Auth/Login';
 
 export const UserContext = React.createContext();
 
-export const App = () => {
+export const App = props => {
   const token = localStorage.getItem('token');
 
   const { loading, error, data } = useQuery(ME_QUERY, {
@@ -34,6 +34,7 @@ export const App = () => {
     <Router>
       <UserContext.Provider value={currentUser}>
         <Navbar
+          {...props}
           currentUser={currentUser}
           setIsLoggedIn={setIsLoggedIn}
           isLoggedIn={isLoggedIn}

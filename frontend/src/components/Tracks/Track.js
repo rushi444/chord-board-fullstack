@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { AudioPlayer } from '../Shared/AudioPlayer';
 import { LikeTrack } from './LikeTrack';
 import { DeleteTrack } from './DeleteTrack';
-import { TrackList } from './TrackList';
 
 export const Track = ({ track }) => {
   const [expand, setExpand] = useState(false);
@@ -13,7 +12,7 @@ export const Track = ({ track }) => {
   return (
     <>
       <Title style={{ display: 'inline-block' }}>
-        {track.title} {track.id}
+        {track.title}
       </Title>
       <NonExpandInfo>
         {<LikeTrack trackId={track.id} likeCount={track.likes.length} />}
